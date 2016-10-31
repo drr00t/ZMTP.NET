@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsyncIO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,15 @@ using System.Threading.Tasks;
 namespace ZMTP.NET
 {
     public class Context
-    {        
+    {
+        private CompletionPort m_completionPort;
         private object m_sync;
         private Queue<Action> m_actionsQueue; 
 
         public Context()
         {
             m_actionsQueue = new Queue<Action>();
+            m_completionPort = CompletionPort.Create();
 
             m_sync = new object();
         }

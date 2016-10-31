@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices.WindowsRuntime;
+﻿using AsyncIO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Networking.Sockets;
 
@@ -6,7 +7,7 @@ namespace ZMTP.NET
 {
     class SendStateMachine : StateMachine<SendStateMachine.SendState, SendStateMachine.Action>
     {
-        private StreamSocket m_streamSocket;
+        private AsyncSocket m_streamSocket;
 
         public enum SendState
         {
@@ -32,7 +33,7 @@ namespace ZMTP.NET
             });
         }
 
-        public void Start(StreamSocket streamSocket)
+        public void Start(AsyncSocket streamSocket)
         {
             m_streamSocket = streamSocket;
 

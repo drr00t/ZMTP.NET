@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsyncIO;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -35,7 +36,7 @@ namespace ZMTP.NET
 
         private int m_size;
         private byte[] m_data;
-        private StreamSocket m_streamSocket;
+        private AsyncSocket m_streamSocket;
 
         public ReceiveStateMachine(Context context) : base(context, ReceiveState.Idle)
         {            
@@ -114,7 +115,7 @@ namespace ZMTP.NET
             });
         }
 
-        public void Start(StreamSocket streamSocket)
+        public void Start(AsyncSocket streamSocket)
         {
             m_streamSocket = streamSocket;
             Handle(ReceiveAction.Start);

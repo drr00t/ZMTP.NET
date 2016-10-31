@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsyncIO;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -23,7 +24,7 @@ namespace ZMTP.NET
         private HandshakeStateMachine m_handshake;
         private ReceiveStateMachine m_receiveStateMachine;
         private SendStateMachine m_sendStateMachine;
-        private StreamSocket m_streamSocket;        
+        private AsyncSocket m_streamSocket;        
 
         public Endpoint(Context context, SocketType socketType, string address)
         {            
@@ -32,11 +33,14 @@ namespace ZMTP.NET
 
             Uri uri = new Uri(address);
 
-            if (uri.Scheme != "tcp" || !string.IsNullOrEmpty(uri.Fragment) || !string.IsNullOrEmpty(uri.Query))
+            if (uri.Scheme != "tcp" || !string.IsNullOrEmpty(uri.Fragment) || 
+                !string.IsNullOrEmpty(uri.Query))
                 throw new ArgumentException("invalid address");
 
             m_hostName = uri.Host;
             m_port = uri.Port;
+
+            context.Create
 
             m_handshake = new HandshakeStateMachine(m_context, m_hostName, m_port, m_socketType);
             m_receiveStateMachine = new ReceiveStateMachine(m_context);
@@ -45,7 +49,7 @@ namespace ZMTP.NET
 
         public void Start()
         {
-            m_streamSocket = new StreamSocket();
+            m_streamSocket = AsyncSocket.CreateIPv4Tcp();
 
             m_handshake.Completed += HandshakeCompleted;
             

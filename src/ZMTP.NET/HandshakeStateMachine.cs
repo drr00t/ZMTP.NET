@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsyncIO;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,7 +17,7 @@ namespace ZMTP.NET
 {
     class HandshakeStateMachine : StateMachine<HandshakeStateMachine.HandshakeState, HandshakeStateMachine.Action>
     {
-        private StreamSocket m_streamSocket;
+        private AsyncSocket m_streamSocket;
         private readonly string m_hostName;
         private readonly int m_port;
         private readonly SocketType m_socketType;
@@ -122,7 +123,7 @@ namespace ZMTP.NET
 
         public event EventHandler Completed;
 
-        public void Start(StreamSocket streamSocket)
+        public void Start(AsyncSocket streamSocket)
         {
             m_streamSocket = streamSocket;
             Handle(Action.Start);
